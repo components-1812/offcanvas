@@ -1,0 +1,110 @@
+<!DOCTYPE html
+>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2 - Panel placement</title>
+
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+
+        body {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        section {
+            width: 500px;
+            height: 500px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            position: relative;
+            margin: 20px auto;
+            resize: both;
+        }
+        custom-offcanvas {
+            --offcanvas-backdrop-bg: #ff0000ad;
+        }
+    </style>
+</head>
+<body>
+
+    <section>
+        <custom-offcanvas open variant="left" handle-button>
+            <div slot="header">Header</div>
+            <div>
+                <h3>Default backdrop</h3>
+
+                <p>by default click on the backdrop to close the panel</p>
+            </div>
+            <div slot="footer">Footer</div>
+        </custom-offcanvas>
+    </section>
+
+    <section>
+        <custom-offcanvas open variant="left backdrop-static" handle-button>
+            <div slot="header">Header</div>
+            <div>
+                <h3>Backdrop static</h3>
+
+                <p>click on the backdrop not to close the panel</p>
+            </div>
+            <div slot="footer">Footer</div>
+        </custom-offcanvas>
+    </section>
+
+    <section>
+        <custom-offcanvas open variant="left backdrop-transparent" handle-button>
+            <div slot="header">Header</div>
+            <div>
+                <h3>Backdrop transparent</h3>
+                <p>the background is transparent, click on the backdrop close the panel</p>
+            </div>
+            <div slot="footer">Footer</div>
+        </custom-offcanvas>
+    </section>
+
+    <section>
+        <custom-offcanvas open variant="left backdrop-static backdrop-transparent" handle-button>
+            <div slot="header">Header</div>
+            <div>
+                <h3>Backdrop transparent and static</h3>
+                <p>the background is transparent, click on the backdrop not to close the panel</p>
+            </div>
+            <div slot="footer">Footer</div>
+        </custom-offcanvas>
+    </section>
+
+    
+    <script type="module">
+        const mode = 'development';
+
+        const SOURCES = {
+            development: {
+                Offcanvas: '../src/Offcanvas.js',
+                OffcanvasCSS: '../src/Offcanvas.css',
+            },
+            production: {
+                Offcanvas: '',
+                OffcanvasCSS: ''
+            }
+        }
+
+        const {Offcanvas} = await import(SOURCES[mode].Offcanvas);
+        const OffcanvasCSS = SOURCES[mode].OffcanvasCSS;
+
+        console.log('MODE:', mode);
+        console.log(Offcanvas);
+        console.log(OffcanvasCSS);
+
+        //Load the stylesheet
+        Offcanvas.stylesSheets.links.push(OffcanvasCSS);
+
+        customElements.define('custom-offcanvas', Offcanvas);
+    </script>
+</body>
+</html>

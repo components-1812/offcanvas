@@ -30,6 +30,17 @@ class Offcanvas extends HTMLElement {
         </svg>`
     };
 
+    static define(tagName = Offcanvas.DEFAULT_TAG_NAME){
+        
+        if(!window.customElements.get(tagName)){
+
+            window.customElements.define(tagName, Offcanvas);
+        }
+        else {
+            console.warn(`Custom element with tag name "${tagName}" is already defined.`);
+        }
+    }
+
     /**
      * @type {{links:string[], adopted:CSSStyleSheet[], raw:string[]}} Stylesheets to be applied to the component
      */
@@ -121,6 +132,9 @@ class Offcanvas extends HTMLElement {
     connectedCallback() {
 
         this.shadowRoot.querySelector('.close-button')
+            .addEventListener('click', this.#handleClose, {});
+
+        this.shadowRoot.querySelector('.offcanvas-backdrop')
             .addEventListener('click', this.#handleClose);
 
         this.dispatchEvent(new CustomEvent('ready'));
@@ -129,6 +143,9 @@ class Offcanvas extends HTMLElement {
     disconnectedCallback() {
 
         this.shadowRoot.querySelector('.close-button')
+            ?.removeEventListener('click', this.#handleClose);
+        
+        this.shadowRoot.querySelector('.offcanvas-backdrop')
             ?.removeEventListener('click', this.#handleClose);
 
         this.#disposeHandleButton();
@@ -147,7 +164,7 @@ class Offcanvas extends HTMLElement {
 
             this.#offcanvas?.toggleAttribute('open', this.open);
 
-            this.dispatchEvent( new CustomEvent('toggle', {
+            this.dispatchEvent( new CustomEvent('offcanvas-toggle', {
                 detail: { open: this.open },
                 bubbles: true,
                 composed: true
@@ -206,10 +223,13 @@ class Offcanvas extends HTMLElement {
 
     //MARK: Listeners handlers
     #handleOpen = (e) => {
+        e.stopPropagation();
         this.toggle();
     }
     #handleClose = (e) => {
+        e.stopPropagation();
         this.hide();
+        console.log('close')
     }
 
     //MARK: Getters and Setters

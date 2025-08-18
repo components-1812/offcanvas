@@ -77,7 +77,7 @@
     background-color: transparent;
     transition: var(--offcanvas-backdrop-transition);
 
-    &[open]{
+    &[open]:not([variant~="backdrop-transparent"]) {
         background-color: var(--offcanvas-backdrop-bg);
     }
 
@@ -152,22 +152,34 @@
     }
 
     &[variant~="left"] .panel, .panel {
+        border-top: none;
+        border-left: none;
+        border-bottom: none;
         border-right: var(--offcanvas-panel-border);
         border-radius: 0 var(--offcanvas-panel-border-radius) var(--offcanvas-panel-border-radius) 0;
         margin: 0 0 0 calc(-1 * var(--offcanvas-panel-width));
     }
     &[variant~="right"] .panel {
-        border-left: var(--offcanvas-panel-border);
+        border-top: none;
+        border-left: var(--offcanvas-panel-border);;
+        border-bottom: none;
+        border-right: none;
         border-radius: var(--offcanvas-panel-border-radius) 0 0 var(--offcanvas-panel-border-radius);
         margin: 0 calc(-1 * var(--offcanvas-panel-width)) 0 0;
     }
     &[variant~="top"] .panel {
+        border-top: none;
+        border-left: none;
         border-bottom: var(--offcanvas-panel-border);
+        border-right:  none;
         border-radius: 0 0 var(--offcanvas-panel-border-radius) var(--offcanvas-panel-border-radius);
         margin: calc(-1 * var(--offcanvas-panel-height)) 0 0 0;
     }
     &[variant~="bottom"] .panel {
         border-top: var(--offcanvas-panel-border);
+        border-left: none;
+        border-bottom: none;
+        border-right: none;
         border-radius: var(--offcanvas-panel-border-radius) var(--offcanvas-panel-border-radius) 0 0;
         margin: 0 0 calc(-1 * var(--offcanvas-panel-height)) 0;
     }
@@ -179,6 +191,7 @@
 :host .offcanvas {
 
     .offcanvas-backdrop {
+        pointer-events: none;
         flex: 1 1 auto;
         position: relative;
         color: var(--offcanvas-backdrop-color);
@@ -191,12 +204,18 @@
         }
     }
     &[open] .offcanvas-backdrop {
+
+        pointer-events: initial;
+
         ::slotted([data-hide-when-closed]){
             display: unset;
         }
         ::slotted([data-hide-when-opened]){
             display: none;
         }
+    }
+    &[open][variant~="backdrop-static"] .offcanvas-backdrop {
+        pointer-events: none;
     }
 }
 /*MARK: Close button*/

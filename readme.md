@@ -1,7 +1,5 @@
 # Offcanvas custom element
 
-# JSON Visualizer custom element
-
 ![](./assets/preview-2.webp)
 
 ## Examples
@@ -27,32 +25,55 @@ npm install @components-1812/offcanvas
 
 #### CDN
 
+Load the component bundle directly from a CDN — this will automatically register the element and inject styles:
+
+```html
+<!-- Classic script -->
+<script src="https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.1/dist/index.min.js"></script>
+
+<!-- ES module -->
+<script type="module">
+  import "https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.1/dist/index.min.js";
+</script>
+```
+
+Alternatively, you can manually import, load the styles, and define the element yourself:
+
 ```html
 <script type="module">
-    import Offcanvas from 'https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.1/src/Offcanvas.min.js';
+  import Offcanvas from "https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.1/src/Offcanvas.min.js";
 
-    //Load the stylesheet
-    Offcanvas.stylesSheets.links.push('https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.1/src/Offcanvas.min.css');
+  // Load the stylesheet from a CDN
+  Offcanvas.stylesSheets.links.push(
+    "https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.1/src/Offcanvas.min.css"
+  );
 
-    console.log(Offcanvas);
-
-    customElements.define('custom-offcanvas', Offcanvas);
+  //Define with the default tag
+  Offcanvas.define();
 </script>
 ```
 
 - **jsdelivr**: [`Offcanvas package`](https://www.jsdelivr.com/package/npm/@components-1812/offcanvas)
 [`Offcanvas.js`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.1/src/Offcanvas.min.js)
 [`Offcanvas.css`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.1/src/Offcanvas.css)
+[`Offcanvas.min.js`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.1/dist/Offcanvas.min.js)
+[`Offcanvas.min.css`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.1/dist/Offcanvas.min.css)
+[`Bundle`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.1/dist/index.min.js)
 
 - **unpkg**: [`Offcanvas package`](https://app.unpkg.com/@components-1812/offcanvas)
 [`Offcanvas.js`](https://unpkg.com/@components-1812/offcanvas@0.0.1/src/Offcanvas.js)
 [`Offcanvas.css`](https://unpkg.com/@components-1812/offcanvas@0.0.1/src/Offcanvas.css)
+[`Offcanvas.min.js`](https://unpkg.com/@components-1812/offcanvas@0.0.1/dist/Offcanvas.min.js)
+[`Offcanvas.min.css`](https://unpkg.com/@components-1812/offcanvas@0.0.1/dist/Offcanvas.min.css)
+[`Bundle`](https://unpkg.com/@components-1812/offcanvas@0.0.1/dist/index.min.js)
 
 <br>
 
 ## Usage
 
-If you use Vite or a framework based on Vite such as Astro, you can import the component in a client-side script file:
+### Vite Ecosystem
+
+If you are using **Vite** or a **Vite-based** framework such as **Astro**, you can import the component in a *client-side script*:
 
 ```js
 import '@components-1812/offcanvas';
@@ -84,16 +105,27 @@ and use it in your HTML:
 </custom-offcanvas>
 ```
 
-> **Note:**
-> 
-> If you are using a builder or framework that doesn't support import `?raw`, you need to load the component and its stylesheets manually.
-> 
-> see [Adding CSS stylesheets manually](#adding-css-stylesheets-manually)
+### Other Frameworks
 
+If you are using a builder or framework that does not support importing with `?raw`, 
+
+you can load and register the component using the `bundle` version in `dist/index.min.js`, which includes all CSS injected via **CSS-in-JS** and `AdoptedStyleSheets`:
+
+```js
+import '@components-1812/offcanvas/dist/index.min.js';
+```
+
+For customizing the component definition or manually loading the stylesheets, see [Defining and 
+Adding Stylesheets Manually](#Defining and Adding Stylesheets Manually).
+
+
+> **Node**
+>
+> The `dist` folder includes minified versions: `Offcanvas.min.css` and `Offcanvas.min.js`, which can be used anywhere.
 
 <br>
 
-## Adding CSS stylesheets manually
+## Defining and Adding Stylesheets Manually
 
 If you want to add custom stylesheets to the component or need to load stylesheets from a different path, you can do it like this:
 
@@ -105,15 +137,15 @@ If you want to add custom stylesheets to the component or need to load styleshee
     import Offcanvas from "@components-1812/offcanvas/Offcanvas.js";
     import OffcanvasRawCSS from "@components-1812/offcanvas/Offcanvas.css?raw";
 
-    //Add the stylesheets to the component
+    //Create a CSSStyleSheet and add it to the component
     const OffcanvasCSS = new CSSStyleSheet();
 
     OffcanvasCSS.replaceSync(OffcanvasRawCSS);
 
     Offcanvas.stylesSheets.adopted.push(OffcanvasCSS);
 
-    //Define the component
-    import('@components-1812/offcanvas/define');
+    //Define the component with default tag name
+    Offcanvas.define();
     ```
 
 - ### Raw CSS in a `<style>` tag
@@ -122,13 +154,16 @@ If you want to add custom stylesheets to the component or need to load styleshee
 
     ```js
     import Offcanvas from "@components-1812/offcanvas/Offcanvas.js";
-    import OffcanvasRawCSS from "@components-1812/offcanvas/Offcanvas.css?raw";
+   
+    //Add the raw stylesheet to the component
+    const OffcanvasRawCSS = `:host {
+        /* ...Offcanvas.css styles... */
+    }`;
 
-    //Add the stylesheets to the component
-    Offcanvas.stylesSheets.raw.push(OffcanvasCSS);
+    Offcanvas.stylesSheets.raw.push(OffcanvasRawCSS);
 
-    //Define the component
-    import('@components-1812/offcanvas/define');
+    //Define the component custom tag name
+    Offcanvas.define('other-custom-tag-name');
     ```
 
 - ### External CSS files in a `<link>` tag
@@ -137,18 +172,13 @@ If you want to add custom stylesheets to the component or need to load styleshee
 
     ```js
     import Offcanvas from "@components-1812/offcanvas/Offcanvas.js";
-    import OffcanvasCSS from "@components-1812/offcanvas/Offcanvas.css?url";
 
-    //Add the stylesheets to the component
-    Offcanvas.stylesSheets.links.push(OffcanvasCSS);
+    //Add the url source stylesheets to the component
+    Offcanvas.stylesSheets.links.push('https://cdn.example.com/Offcanvas.css');
 
-    //Define the component
-    import('@components-1812/offcanvas/define');
+    //Define the component manually
+    customElements.define('custom-offcanvas', Offcanvas);
     ```
-
-> **Note:**
-> 
-> `import('@components-1812/offcanvas/define')` calls `customElements.define('custom-offcanvas', Offcanvas);` in `define.js`
 
 <br>
 
@@ -345,8 +375,9 @@ You can also control the visibility of backdrop elements based on the panel stat
 
 <br><br>
 
+## Variants
 
-## Global and Local Positioning
+### Panel Global and Local Positioning
 
 You can control whether the **offcanvas panel** is positioned relative to the `viewport` or inside its container using the `variant` attribute:
 
@@ -364,7 +395,7 @@ You can control whether the **offcanvas panel** is positioned relative to the `v
 </div>
 ```
 
-## Placement
+### Panel Placement
 
 The `variant` attribute defines the position of the **offcanvas panel**: `left`, `right`, `top`, `bottom` 
 
@@ -375,7 +406,7 @@ The `variant` attribute defines the position of the **offcanvas panel**: `left`,
 <custom-offcanvas variant="bottom"></custom-offcanvas>
 ```
 
-## Panel scroll 
+### Panel Scroll 
 
 By default, the panel does not scroll. You can customize the scroll behavior using the following variants:
 
@@ -391,7 +422,7 @@ By default, the panel does not scroll. You can customize the scroll behavior usi
 <custom-offcanvas variant="scroll-body"></custom-offcanvas>
 ```
 
-## Handle button
+### Handle button
 
 By default, the component does not provide any control to open the panel; you must add it manually.
 
@@ -400,6 +431,30 @@ With the handle-button attribute, the component automatically adds a button insi
 ```html
 <custom-offcanvas variant="right" handle-button></custom-offcanvas>
 ```
+
+### Static and Transparent Backdrop
+
+- `backdrop-static`: By default, clicking on the backdrop closes the **panel**.
+
+    You can disable this behavior by adding the backdrop-static variant:
+
+    ```html
+    <custom-offcanvas variant="backdrop-static"></custom-offcanvas>
+    ```
+
+    With this `variant`, clicking on the backdrop won’t close the **panel**, and the page behind it remains interactive while the **panel** is open.
+
+- `backdrop-transparent`
+
+    If you want to hide the backdrop background when the **panel** is open, you have two options:
+
+    - Override the CSS variable: `--offcanvas-backdrop-bg`
+    - Or, more easily, use the `backdrop-transparent` variant:
+
+    ```html
+    <custom-offcanvas variant="backdrop-transparent"></custom-offcanvas>
+    ```
+
 
 <br><br>
 

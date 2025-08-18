@@ -30,7 +30,7 @@
         <div slot="footer">Footer</div>
     </custom-offcanvas>
     
-
+    <!-- <script src="../dist/index.min.js"></script> -->
     <script type="module">
         const mode = 'development';
 
@@ -40,8 +40,12 @@
                 OffcanvasCSS: '../src/Offcanvas.css',
             },
             production: {
-                Offcanvas: '',
-                OffcanvasCSS: ''
+                Offcanvas: '../dist/Offcanvas.min.js',
+                OffcanvasCSS: '../dist/Offcanvas.min.css'
+            },
+            bundle: {
+                Offcanvas: '../dist/index.min.js',
+                OffcanvasCSS: null
             }
         }
 
@@ -52,10 +56,13 @@
         console.log(Offcanvas);
         console.log(OffcanvasCSS);
 
-        //Load the stylesheet
-        Offcanvas.stylesSheets.links.push(OffcanvasCSS);
+        if(mode !== 'bundle'){
 
-        customElements.define('custom-offcanvas', Offcanvas);
+            //Load the stylesheet
+            Offcanvas.stylesSheets.links.push(OffcanvasCSS);
+    
+            Offcanvas.define();
+        }
     </script>
 </body>
 </html>

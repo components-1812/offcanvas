@@ -36,22 +36,12 @@ const BUILD_ENTRIES = [
             plugins: [rawCSSPlugin()]
         }
     },
-    {   
-        name: 'define.js',
-        options: {
-            entryPoints: [path.join(SOURCE, 'define.js')],
-            minify: true,
-            sourcemap: false,
-            target: 'esnext',
-            outfile: path.join(OUTPUT, 'define.min.js'),
-        }
-    },
 ];
 
 // Asegurarse de que dist exista
-if (!fs.existsSync(OUTPUT)) fs.mkdirSync(OUTPUT);
+if(!fs.existsSync(OUTPUT)) fs.mkdirSync(OUTPUT);
 
-for (const {name, options} of BUILD_ENTRIES) {
+for(const {name, options} of BUILD_ENTRIES) {
     
     try {
         await esbuild.build(options);
