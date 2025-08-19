@@ -2,24 +2,26 @@
     position: static;
 
     --offcanvas-position: absolute;
-    --offcanvas-z-index: 10000;
+    --offcanvas-z-index: 8010;
 
+    /* Panel */
     --offcanvas-panel-width: 300px;
     --offcanvas-panel-height: 100%;
-    --offcanvas-panel-padding: 10px;
+    --offcanvas-panel-padding: 5px;
     --offcanvas-panel-transition: margin 0.3s ease-in-out;
 
-    --offcanvas-panel-header-padding: 10px;
-    --offcanvas-panel-body-padding: 10px;
-    --offcanvas-panel-footer-padding: 10px;
+    --offcanvas-panel-header-padding: 5px;
+    --offcanvas-panel-body-padding: 5px;
+    --offcanvas-panel-footer-padding: 5px;
 
-    /* theme */
+    --offcanvas-shadow: 0 1px 3px 0 #3c40434d, 0 4px 8px 3px #3c404326;
+
     --offcanvas-panel-bg: #222;
     --offcanvas-panel-color: #fff;
-    --offcanvas-panel-header-bg: #222;
-    --offcanvas-panel-header-color: #fff;
-    --offcanvas-panel-footer-bg: #222;
-    --offcanvas-panel-footer-color: #fff;
+    --offcanvas-panel-header-bg: var(--offcanvas-panel-bg);
+    --offcanvas-panel-header-color: var(--offcanvas-panel-color);
+    --offcanvas-panel-footer-bg: var(--offcanvas-panel-bg);
+    --offcanvas-panel-footer-color: var(--offcanvas-panel-color);
 
     --offcanvas-panel-border-width: 1px;
     --offcanvas-panel-border-style: solid;
@@ -29,29 +31,37 @@
     --offcanvas-panel-border-radius: 0px;
 
     /* Backdrop */
-    --offcanvas-backdrop-bg: rgba(0, 0, 0, 0.5);
+    --offcanvas-backdrop-bg: #00000080;
     --offcanvas-backdrop-color: #fff;
     --offcanvas-backdrop-transition: background-color 0.3s ease-in-out;
+
     /* Close button */
-    --offcanvas-close-button-bg: transparent;
-    --offcanvas-close-button-color: #fff;
-    --offcanvas-close-button-font-size: 1.5rem;
-    --offcanvas-close-button-cursor: pointer;
-    --offcanvas-close-button-padding: 10px;
-    --offcanvas-close-button-border: none;
     --offcanvas-close-button-width: 40px;
     --offcanvas-close-button-height: 40px;
+    --offcanvas-close-button-padding: 10px;
+
+    --offcanvas-close-button-bg: transparent;
+    --offcanvas-close-button-color: #fff;
+
+    --offcanvas-close-button-border: none;
+    
+    --offcanvas-close-button-font-size: 1.5rem;
+    --offcanvas-close-button-cursor: pointer;
+
     /* Handle button */
-    --offcanvas-handle-button-bg: #444;
-    --offcanvas-handle-button-color: #fff;
-    --offcanvas-handle-button-padding: 5px;
-    --offcanvas-handle-button-border: none;
-    --offcanvas-handle-button-cursor: pointer;
-    --offcanvas-handle-button-font-size: 1rem;
     --offcanvas-handle-button-width: 50px;
     --offcanvas-handle-button-height: 100px;
+    --offcanvas-handle-button-padding: 5px;
+
+    --offcanvas-handle-button-bg: #444;
+    --offcanvas-handle-button-color: #fff;
+
+    --offcanvas-handle-button-border: none;
     --offcanvas-handle-button-border-radius: 10px;
-    --offcanvas-handle-button-shadow: unset;
+
+    --offcanvas-handle-button-cursor: pointer;
+    --offcanvas-handle-button-font-size: 1rem;
+    --offcanvas-handle-button-shadow: var(--offcanvas-shadow);
 }
 :host([variant~="top"]), :host([variant~="bottom"]) {
     --offcanvas-panel-width: 100%;
@@ -59,6 +69,8 @@
 
     --offcanvas-handle-button-width: 100px;
     --offcanvas-handle-button-height: 50px;
+
+    --offcanvas-panel-shadow: 1px 0 3px 0 #3c40434d, 4px 0 8px 3px #3c404326;
 }
 :host([variant~="global"]) {
     --offcanvas-position: fixed;
@@ -102,20 +114,27 @@
     .panel {
         width: var(--offcanvas-panel-width);
         height: var(--offcanvas-panel-height);
+        padding: var(--offcanvas-panel-padding);    
         position: relative;
         box-sizing: border-box;
 
         pointer-events: initial;
         background: var(--offcanvas-panel-bg);
         color: var(--offcanvas-panel-color);
+    
+        overflow: hidden;
         
         transition: var(--offcanvas-panel-transition);
 
-        display: flex;
-        flex-direction: column;
-
-        overflow: hidden;
-
+        .panel-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+    
+            overflow: hidden;
+        }
         .panel-header {
             position: relative;
             padding: var(--offcanvas-panel-header-padding);
@@ -134,10 +153,10 @@
             color: var(--offcanvas-panel-footer-color);
         }
     }
-    &[variant~="scroll-full"] .panel {
+    &[variant~="scroll-full"] .panel-content {
         overflow: auto;
     }
-    &[variant~="scroll-inner"] .panel {
+    &[variant~="scroll-inner"] .panel-content {
         overflow: auto;
         .panel-header {
             position: sticky;
@@ -184,6 +203,7 @@
         margin: 0 0 calc(-1 * var(--offcanvas-panel-height)) 0;
     }
     &[open] .panel {
+        box-shadow: var(--offcanvas-shadow);
         margin: 0; 
     }
 }
@@ -254,6 +274,7 @@
 
         background: var(--offcanvas-handle-button-bg);
         color: var(--offcanvas-handle-button-color);
+        box-shadow: var(--offcanvas-handle-button-shadow);
 
         border: var(--offcanvas-handle-button-border);
         font-size: var(--offcanvas-handle-button-font-size);

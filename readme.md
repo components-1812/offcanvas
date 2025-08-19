@@ -1,14 +1,21 @@
 # Offcanvas custom element
 
-![](./assets/preview-2.webp)
+![](./assets/preview.webp)
 
 ## Examples
 
-- [**Codepen**](https://codepen.io/collection/JYEwMK): 
+- [**Codepen**](https://codepen.io/collection/MWrrvV):
+[`Overview`](https://codepen.io/FrancoJavierGadea/pen/WbQzvqB)
+[`2 - Panel placement`](https://codepen.io/FrancoJavierGadea/pen/QwjmbXX)
+[`3 - Panel scroll`](https://codepen.io/FrancoJavierGadea/pen/empMNqZ)
+[`4 - Custom icons`](https://codepen.io/FrancoJavierGadea/pen/xbwWGvd)
+[`5 - Backdrop content`](https://codepen.io/FrancoJavierGadea/pen/GgpxJVX)
+[`6 - Backdrop static`](https://codepen.io/FrancoJavierGadea/pen/NPGYqQV)
+[`7 - Panel responsive`](https://codepen.io/FrancoJavierGadea/pen/yyYKYBN)
 
 
 - [**Stackblitz**]():
-
+[`Overview`](https://stackblitz.com/edit/vitejs-vite-puxrtegx?file=index.html)
 
 
 <br>
@@ -186,26 +193,26 @@ If you want to add custom stylesheets to the component or need to load styleshee
 
 ```css
 --offcanvas-position: absolute;
---offcanvas-z-index: 10000;
+--offcanvas-z-index: 8010;
 
 /* Panel */
 --offcanvas-panel-width: 300px;
 --offcanvas-panel-height: 100%;
---offcanvas-panel-padding: 10px;
+--offcanvas-panel-padding: 5px;
 --offcanvas-panel-transition: margin 0.3s ease-in-out;
 
---offcanvas-panel-header-padding: 10px;
---offcanvas-panel-body-padding: 10px;
---offcanvas-panel-footer-padding: 10px;
+--offcanvas-panel-header-padding: 5px;
+--offcanvas-panel-body-padding: 5px;
+--offcanvas-panel-footer-padding: 5px;
+
+--offcanvas-shadow: 0 1px 3px 0 #3c40434d, 0 4px 8px 3px #3c404326;
 
 --offcanvas-panel-bg: #222;
 --offcanvas-panel-color: #fff;
-
---offcanvas-panel-header-bg: #222;
---offcanvas-panel-header-color: #fff;
-
---offcanvas-panel-footer-bg: #222;
---offcanvas-panel-footer-color: #fff;
+--offcanvas-panel-header-bg: var(--offcanvas-panel-bg);
+--offcanvas-panel-header-color: var(--offcanvas-panel-color);
+--offcanvas-panel-footer-bg: var(--offcanvas-panel-bg);
+--offcanvas-panel-footer-color: var(--offcanvas-panel-color);
 
 --offcanvas-panel-border-width: 1px;
 --offcanvas-panel-border-style: solid;
@@ -215,33 +222,68 @@ If you want to add custom stylesheets to the component or need to load styleshee
 --offcanvas-panel-border-radius: 0px;
 
 /* Backdrop */
---offcanvas-backdrop-bg: rgba(0, 0, 0, 0.5);
+--offcanvas-backdrop-bg: #00000080;
 --offcanvas-backdrop-color: #fff;
 --offcanvas-backdrop-transition: background-color 0.3s ease-in-out;
 
 /* Close button */
---offcanvas-close-button-bg: transparent;
---offcanvas-close-button-color: #fff;
---offcanvas-close-button-font-size: 1.5rem;
---offcanvas-close-button-cursor: pointer;
---offcanvas-close-button-padding: 10px;
---offcanvas-close-button-border: none;
 --offcanvas-close-button-width: 40px;
 --offcanvas-close-button-height: 40px;
+--offcanvas-close-button-padding: 10px;
+
+--offcanvas-close-button-bg: transparent;
+--offcanvas-close-button-color: #fff;
+
+--offcanvas-close-button-border: none;
+
+--offcanvas-close-button-font-size: 1.5rem;
+--offcanvas-close-button-cursor: pointer;
 
 /* Handle button */
---offcanvas-handle-button-bg: #444;
---offcanvas-handle-button-color: #fff;
---offcanvas-handle-button-padding: 5px;
---offcanvas-handle-button-border: none;
---offcanvas-handle-button-cursor: pointer;
---offcanvas-handle-button-font-size: 1rem;
 --offcanvas-handle-button-width: 50px;
 --offcanvas-handle-button-height: 100px;
+--offcanvas-handle-button-padding: 5px;
+
+--offcanvas-handle-button-bg: #444;
+--offcanvas-handle-button-color: #fff;
+
+--offcanvas-handle-button-border: none;
 --offcanvas-handle-button-border-radius: 10px;
---offcanvas-handle-button-shadow: unset;
+
+--offcanvas-handle-button-cursor: pointer;
+--offcanvas-handle-button-font-size: 1rem;
+--offcanvas-handle-button-shadow: var(--offcanvas-shadow);
+```
+#### Top and Bottom Offcanvas
+```css
+--offcanvas-panel-width: 100%;
+--offcanvas-panel-height: 300px;
+
+--offcanvas-handle-button-width: 100px;
+--offcanvas-handle-button-height: 50px;
+
+--offcanvas-panel-shadow: 1px 0 3px 0 #3c40434d, 4px 0 8px 3px #3c404326;
 ```
 
+
+### Responsive Panel
+
+For responsive design, there will be times when you want the panel to occupy the **full width of the screen**, especially on mobile devices.
+
+You can achieve this by adding a `CSS media query` like the following:
+
+```css
+custom-offcanvas {
+            
+    @media (width <= 500px) {
+        --offcanvas-panel-width: 100%;
+    }
+}
+```
+
+This will ensure that the offcanvas panel expands to the **full screen width** on devices with a width of `500px` or less.
+
+> See the example: [7 - Panel responsive](https://codepen.io/FrancoJavierGadea/pen/yyYKYBN)
 
 
 <br><br>
@@ -372,6 +414,7 @@ You can also control the visibility of backdrop elements based on the panel stat
 </custom-offcanvas>
 ```
 
+> See the example: [5 - Backdrop content](https://codepen.io/FrancoJavierGadea/pen/GgpxJVX)
 
 <br><br>
 
@@ -406,6 +449,8 @@ The `variant` attribute defines the position of the **offcanvas panel**: `left`,
 <custom-offcanvas variant="bottom"></custom-offcanvas>
 ```
 
+> See the example: [2 - Panel placement](https://codepen.io/FrancoJavierGadea/pen/QwjmbXX)
+
 ### Panel Scroll 
 
 By default, the panel does not scroll. You can customize the scroll behavior using the following variants:
@@ -421,6 +466,9 @@ By default, the panel does not scroll. You can customize the scroll behavior usi
 <custom-offcanvas variant="scroll-inner"></custom-offcanvas>
 <custom-offcanvas variant="scroll-body"></custom-offcanvas>
 ```
+
+> See the example: [3 - Panel scroll](https://codepen.io/FrancoJavierGadea/pen/empMNqZ)
+
 
 ### Handle button
 
@@ -499,28 +547,43 @@ With the handle-button attribute, the component automatically adds a button insi
 
 ### Static properties
 
-`VERSION` (string): Component version (0.0.1).
+- `VERSION` (string): Component version (0.0.1).
 
-`DEFAULT_TAG_NAME` (string): Default tag name (`custom-offcanvas`) use it to define the custom element in `index.js` and `define.js`
+- `DEFAULT_TAG_NAME` (string): Default tag name (`custom-offcanvas`) use it to define the custom element in `index.js` and `define.js`
 
-`DEFAULT_ICONS` (object): Default svg icons for `close-button` and `handle-button`.
+- `DEFAULT_ICONS` (object): Default svg icons for `close-button` and `handle-button`.
 
-```js
-Offcanvas.DEFAULT_ICONS = {
-    'close-button': `<svg>...</svg>`,
-    'handle-button': `<svg data-rotate-icon>...</svg>`
-}
-```
+    ```js
+    Offcanvas.DEFAULT_ICONS = {
+        'close-button': `<svg>...</svg>`,
+        'handle-button': `<svg data-rotate-icon>...</svg>`
+    }
+    ```
 
-`stylesSheets` (object): Contains `links`, `adopted`, and `raw` stylesheets to apply to the component.
+- `stylesSheets` (object): Contains `links`, `adopted`, and `raw` stylesheets to apply to the component.
 
-```js
-Offcanvas.stylesSheets = {
-    links: [],//string url css source
-    adopted: [],//CSSStyleSheet instances
-    raw: [],//string raw css
-};
-```
+    ```js
+    Offcanvas.stylesSheets = {
+        links: [],//string url css source
+        adopted: [],//CSSStyleSheet instances
+        raw: [],//string raw css
+    };
+    ```
+
+- `define(tagName?, stylesSheets?)` (function): Defines the custom element and optionally adds stylesheets if the element is not already registered.
+
+    ```js
+    Offcanvas.define('custom-offcanvas', {
+
+        links: ['https://cdn.example.com/Offcanvas.css'],
+
+        adopted: [new CSSStyleSheet()],
+
+        raw: [':host { /* ...Offcanvas.css styles... */ }'],
+    });
+    ```
+    > Internally, this method calls `window.customElements.define(tagName, Offcanvas)`
+
 
 ### Slots
 

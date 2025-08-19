@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5 - Backdrop content</title>
+    <title>7 - Responsive panel</title>
 
     <style>
         :root {
@@ -18,13 +18,21 @@
         }
 
         section {
-            width: 900px;
-            height: 550px;
+            width: 500px;
+            height: 500px;
             border: 1px solid #ccc;
             overflow: hidden;
             position: relative;
             margin: 20px auto;
             resize: both;
+
+            container-type: inline-size;
+        }
+        custom-offcanvas {
+            
+            @container (width <= 450px) {
+                --offcanvas-panel-width: 100%;
+            }
         }
     </style>
 </head>
@@ -37,28 +45,8 @@
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
             </div>
             <div slot="footer">Footer</div>
-
-            <!-- Backdrop content -->
-            <div slot="backdrop" style="position: absolute; top: 0; left: 0;">
-                <p>This is the backdrop content.</p>
-                <p>You can add any content here.</p>
-            </div>
-
-            <div slot="backdrop" style="position: absolute; bottom: 0; right: 0;">
-                <p>This is another backdrop content.</p>
-                <p>You can customize the backdrop as needed.</p>
-            </div>
-
-            <div slot="backdrop" style="position: absolute; top: 0; right: 0;" data-hide-when-closed>
-                <p>This content will hide when the offcanvas is closed.</p>
-            </div>
-
-            <div slot="backdrop" style="position: absolute; bottom: 0; left: 0;" data-hide-when-opened>
-                <p>This content will hide when the offcanvas is opened.</p>
-            </div>
         </custom-offcanvas>
     </section>
-
 
     
     <script type="module">

@@ -30,9 +30,20 @@ class Offcanvas extends HTMLElement {
         </svg>`
     };
 
-    static define(tagName = Offcanvas.DEFAULT_TAG_NAME){
+    /**
+     * Define the custom element and add stylesheets to it if not already defined.
+     *
+     * @param {string} [tagName=Offcanvas.DEFAULT_TAG_NAME] - The tag name to define the custom element.
+     * @param {{links:string[], adopted:CSSStyleSheet[], raw:string[]}} [stylesSheets={}] - An object with stylesheets to add to the element. It contains three properties: `links`, `adopted`, and `raw`.
+     * @returns {void}
+     */
+    static define(tagName = Offcanvas.DEFAULT_TAG_NAME, stylesSheets = {}){
         
         if(!window.customElements.get(tagName)){
+
+            if(Array.isArray(stylesSheets.links)) Offcanvas.stylesSheets.links.push(...stylesSheets.links);
+            if(Array.isArray(stylesSheets.adopted)) Offcanvas.stylesSheets.adopted.push(...stylesSheets.adopted);
+            if(Array.isArray(stylesSheets.raw)) Offcanvas.stylesSheets.raw.push(...stylesSheets.raw);
 
             window.customElements.define(tagName, Offcanvas);
         }
@@ -59,23 +70,25 @@ class Offcanvas extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <div class="offcanvas">
                 <div class="panel">
-                    <div class="panel-header">
-                        <slot name="header">
-                            <h2 class="offcanvas-title">Offcanvas Title</h2>
-                        </slot>
-                        <button class="close-button" aria-label="Close">
-                            <slot name="close-button">
-                                ${Offcanvas.DEFAULT_ICONS['close-button']}
+                    <div class="panel-content">
+                        <header class="panel-header">
+                            <slot name="header">
+                                <h2 class="offcanvas-title">Offcanvas Title</h2>
                             </slot>
-                        </button>
-                    </div>
-                    <div class="panel-body">
-                        <slot>
-                            Offcanvas Body Content
-                        </slot>
-                    </div>
-                    <div class="panel-footer">
-                        <slot name="footer"></slot>
+                            <button class="close-button" aria-label="Close">
+                                <slot name="close-button">
+                                    ${Offcanvas.DEFAULT_ICONS['close-button']}
+                                </slot>
+                            </button>
+                        </header>
+                        <div class="panel-body">
+                            <slot>
+                                Offcanvas Body Content
+                            </slot>
+                        </div>
+                        <footer class="panel-footer">
+                            <slot name="footer"></slot>
+                        </footer>
                     </div>
                 </div>
                 <div class="offcanvas-backdrop">

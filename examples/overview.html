@@ -4,11 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Offcanvas overview</title>
+
+    <style>
+        :root {
+            color-scheme: dark;
+            font-family: sans-serif;
+            font-size: 14pt;
+        }
+        custom-offcanvas {
+            --offcanvas-panel-width: 400px;
+        }
+    </style>
 </head>
 <body>
 
-    <custom-offcanvas open variant="right global" handle-button>
+    <custom-offcanvas open variant="right global scroll-inner" handle-button>
         <div slot="header">Header</div>
         <div>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
@@ -29,6 +40,12 @@
         </div>
         <div slot="footer">Footer</div>
     </custom-offcanvas>
+
+    <main>
+        <h1>Offcanvas overview</h1>
+        
+        <p>This is a simple example of the custom element in action. The offcanvas panel is positioned to the right.</p>
+    </main>
     
     <!-- <script src="../dist/index.min.js"></script> -->
     <script type="module">
