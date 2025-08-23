@@ -1,6 +1,8 @@
 import esbuild from "esbuild";
+import {minify} from "html-minifier-terser";
 import path from "node:path";
 import fs from "node:fs";
+
 
 const SOURCE = path.resolve(import.meta.dirname, 'src');
 const OUTPUT = path.resolve(import.meta.dirname, 'dist');
@@ -14,6 +16,7 @@ const BUILD_ENTRIES = [
             sourcemap: false,
             target: 'esnext',
             outfile: path.join(OUTPUT, 'Offcanvas.min.js'),
+            plugins: [htmlMinifyPlugin()]
         }
     },
     {
@@ -33,7 +36,7 @@ const BUILD_ENTRIES = [
             sourcemap: false,
             target: 'esnext',
             outfile: path.join(OUTPUT, 'index.min.js'),
-            plugins: [rawCSSPlugin()]
+            plugins: [rawCSSPlugin(), htmlMinifyPlugin()]
         }
     },
 ];
@@ -57,6 +60,10 @@ for(const {name, options} of BUILD_ENTRIES) {
 
 
 //MARK: Plugins
+/**
+ *  Support for import ?raw from '.css'
+ *  Load the css file and minify it
+ */
 function rawCSSPlugin(){
 
     return {
@@ -88,4 +95,54 @@ function rawCSSPlugin(){
             });
         }
     };
+};
+
+/**
+ *  Minify the HTML inside the JavaScript string literals using the html-minifier library
+ */
+export function htmlMinifyPlugin() {
+
+    async function minifyHTMLinJS(contents) {
+
+        const regex = /`([^`]*<[^>]+>[^`]*)`/gs
+        const matchs = [...contents.matchAll(regex)];
+
+        if(matchs.length === 0) return contents;
+
+        for(const match of matchs) {
+            
+            const [_, html] = match;
+
+
+            const minified = await minify(html, {
+                removeComments: true,
+                collapseWhitespace: true,
+                collapseInlineTagWhitespace: true,
+                removeAttributeQuotes: true,
+                collapseBooleanAttributes: true,
+            });
+
+            contents = contents.replace('`' + html + '`', '`' + minified + '`');
+        }
+
+        return contents;
+    }
+
+
+    return {
+        name: 'html-minify',
+        setup(build) {
+            
+            build.onLoad({ filter: /\.js$/ }, async (args) => {
+
+                const fs = await import('node:fs/promises')
+                let contents = await fs.readFile(args.path, 'utf8');
+
+                contents = await minifyHTMLinJS(contents);
+
+                return { contents, loader: 'default' }
+            })
+        }
+    }
 }
+
