@@ -36,11 +36,11 @@ Load the component bundle directly from a CDN — this will automatically regist
 
 ```html
 <!-- Classic script -->
-<script src="https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.2/dist/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.3/dist/index.min.js"></script>
 
 <!-- ES module -->
 <script type="module">
-  import "https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.2/dist/index.min.js";
+  import "https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.3/dist/index.min.js";
 </script>
 ```
 
@@ -48,11 +48,11 @@ Alternatively, you can manually import, load the styles, and define the element 
 
 ```html
 <script type="module">
-  import Offcanvas from "https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.2/src/Offcanvas.min.js";
+  import Offcanvas from "https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.3/src/Offcanvas.min.js";
 
   // Load the stylesheet from a CDN
   Offcanvas.stylesSheets.links.push(
-    "https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.2/src/Offcanvas.min.css"
+    "https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.3/src/Offcanvas.min.css"
   );
 
   //Define with the default tag
@@ -61,18 +61,18 @@ Alternatively, you can manually import, load the styles, and define the element 
 ```
 
 - **jsdelivr**: [`Offcanvas package`](https://www.jsdelivr.com/package/npm/@components-1812/offcanvas)
-[`Offcanvas.js`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.2/src/Offcanvas.min.js)
-[`Offcanvas.css`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.2/src/Offcanvas.css)
-[`Offcanvas.min.js`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.2/dist/Offcanvas.min.js)
-[`Offcanvas.min.css`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.2/dist/Offcanvas.min.css)
-[`Bundle`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.2/dist/index.min.js)
+[`Offcanvas.js`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.3/src/Offcanvas.min.js)
+[`Offcanvas.css`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.3/src/Offcanvas.css)
+[`Offcanvas.min.js`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.3/dist/Offcanvas.min.js)
+[`Offcanvas.min.css`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.3/dist/Offcanvas.min.css)
+[`Bundle`](https://cdn.jsdelivr.net/npm/@components-1812/offcanvas@0.0.3/dist/index.min.js)
 
 - **unpkg**: [`Offcanvas package`](https://app.unpkg.com/@components-1812/offcanvas)
-[`Offcanvas.js`](https://unpkg.com/@components-1812/offcanvas@0.0.2/src/Offcanvas.js)
-[`Offcanvas.css`](https://unpkg.com/@components-1812/offcanvas@0.0.2/src/Offcanvas.css)
-[`Offcanvas.min.js`](https://unpkg.com/@components-1812/offcanvas@0.0.2/dist/Offcanvas.min.js)
-[`Offcanvas.min.css`](https://unpkg.com/@components-1812/offcanvas@0.0.2/dist/Offcanvas.min.css)
-[`Bundle`](https://unpkg.com/@components-1812/offcanvas@0.0.2/dist/index.min.js)
+[`Offcanvas.js`](https://unpkg.com/@components-1812/offcanvas@0.0.3/src/Offcanvas.js)
+[`Offcanvas.css`](https://unpkg.com/@components-1812/offcanvas@0.0.3/src/Offcanvas.css)
+[`Offcanvas.min.js`](https://unpkg.com/@components-1812/offcanvas@0.0.3/dist/Offcanvas.min.js)
+[`Offcanvas.min.css`](https://unpkg.com/@components-1812/offcanvas@0.0.3/dist/Offcanvas.min.css)
+[`Bundle`](https://unpkg.com/@components-1812/offcanvas@0.0.3/dist/index.min.js)
 
 <br>
 
@@ -547,7 +547,7 @@ With the handle-button attribute, the component automatically adds a button insi
 
 ### Static properties
 
-- `VERSION` (string): Component version (0.0.2).
+- `VERSION` (string): Component version (0.0.3).
 
 - `DEFAULT_TAG_NAME` (string): Default tag name (`custom-offcanvas`) use it to define the custom element in `index.js` and `define.js`
 

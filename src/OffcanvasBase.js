@@ -2,7 +2,7 @@
 
 class OffcanvasBase extends HTMLElement {
 
-    static VERSION = '0.0.2';
+    static VERSION = '0.0.3';
     static DEFAULT_TAG_NAME = 'custom-offcanvas';
     static DEFAULT_ICONS = {
         'close-button': /*svg*/`<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
