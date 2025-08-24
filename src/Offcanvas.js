@@ -1,3 +1,4 @@
+import OffcanvasBase from "./OffcanvasBase.js";
 
 /**
  * Lateral sliding panel (offcanvas).
@@ -17,57 +18,14 @@
  * @slot footer - Footer content.
  * @slot backdrop - Slot inside the backdrop.
  */
-class Offcanvas extends HTMLElement {
-
-    static VERSION = '0.0.1';
-    static DEFAULT_TAG_NAME = 'custom-offcanvas';
-    static DEFAULT_ICONS = {
-        'close-button': `<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-        </svg>`,
-        'handle-button': `<svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" data-rotate-icon>
-            <path fill-rule="evenodd" d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8m-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5"/>
-        </svg>`
-    };
-
-    /**
-     * Define the custom element and add stylesheets to it if not already defined.
-     *
-     * @param {string} [tagName=Offcanvas.DEFAULT_TAG_NAME] - The tag name to define the custom element.
-     * @param {{links:string[], adopted:CSSStyleSheet[], raw:string[]}} [stylesSheets={}] - An object with stylesheets to add to the element. It contains three properties: `links`, `adopted`, and `raw`.
-     * @returns {void}
-     */
-    static define(tagName = Offcanvas.DEFAULT_TAG_NAME, stylesSheets = {}){
-        
-        if(!window.customElements.get(tagName)){
-
-            if(Array.isArray(stylesSheets.links)) Offcanvas.stylesSheets.links.push(...stylesSheets.links);
-            if(Array.isArray(stylesSheets.adopted)) Offcanvas.stylesSheets.adopted.push(...stylesSheets.adopted);
-            if(Array.isArray(stylesSheets.raw)) Offcanvas.stylesSheets.raw.push(...stylesSheets.raw);
-
-            window.customElements.define(tagName, Offcanvas);
-        }
-        else {
-            console.warn(`Custom element with tag name "${tagName}" is already defined.`);
-        }
-    }
-
-    /**
-     * @type {{links:string[], adopted:CSSStyleSheet[], raw:string[]}} Stylesheets to be applied to the component
-     */
-	static stylesSheets = {
-		links: [],
-		adopted: [],
-		raw: [],
-	};
+class Offcanvas extends OffcanvasBase {
 
     #offcanvas = null;
 
     constructor(){
-
         super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
+
+        this.shadowRoot.innerHTML = /*html*/`
             <div class="offcanvas">
                 <div class="panel">
                     <div class="panel-content">
@@ -100,45 +58,7 @@ class Offcanvas extends HTMLElement {
 
         this.#offcanvas = this.shadowRoot.querySelector('.offcanvas');
 
-        //MARK: CSS and Styles
-        Promise.allSettled(
-			Offcanvas.stylesSheets.links.map((styleSheet) => {
-				const link = document.createElement('link');
-				link.rel = 'stylesheet';
-				link.href = styleSheet;
-
-				const { promise, resolve, reject } = Promise.withResolvers();
-
-                //If it's already loaded (rare in shadow DOM, but possible)
-                if(link.sheet){
-                    resolve({ link, href: styleSheet, status: 'loaded' });
-                }
-                else {
-                    link.addEventListener('load', () => resolve({ link, href: styleSheet, status: 'loaded' }));
-                    link.addEventListener('error', () => reject({ link, href: styleSheet, status: 'error' }));
-                }
-
-				this.shadowRoot.prepend(link);
-
-				return promise;
-			})
-		).then((results) => {
-			this.dispatchEvent(
-				new CustomEvent('ready-links', {
-					detail: { results: results.map((r) => r.value || r.reason) },
-				})
-			);
-
-			this.setAttribute('ready-links', '');
-		});
-
-		Offcanvas.stylesSheets.raw.forEach((style) => {
-			const styleElement = document.createElement('style');
-			styleElement.textContent = style;
-			this.shadowRoot.prepend(styleElement);
-		});
-
-		this.shadowRoot.adoptedStyleSheets = Offcanvas.stylesSheets.adopted;
+        this.applyStylesSheets();
     }
 
     //MARK: Lifecycle Callbacks
@@ -167,6 +87,8 @@ class Offcanvas extends HTMLElement {
     static observedAttributes = ['variant', 'open', 'handle-button'];
 
     attributeChangedCallback(name, oldValue, newValue) {
+
+        if(oldValue === newValue) return;
 
         if(name === 'variant'){
      
@@ -220,7 +142,7 @@ class Offcanvas extends HTMLElement {
         const handleButton = document.createElement('button');
         handleButton.classList.add('handle-button');
 
-        handleButton.innerHTML = `<slot name="handle-button">
+        handleButton.innerHTML = /*html*/`<slot name="handle-button">
             ${Offcanvas.DEFAULT_ICONS['handle-button']}
         </slot>`;
 
@@ -243,28 +165,6 @@ class Offcanvas extends HTMLElement {
         e.stopPropagation();
         this.hide();
         console.log('close')
-    }
-
-    //MARK: Getters and Setters
-    set variant(value) {
-        value ? this.setAttribute('variant', value) : this.removeAttribute('variant');
-    }
-    get variant() {
-        return this.getAttribute('variant');
-    }
-
-    set open(value) {
-        this.toggleAttribute('open', value);
-    }
-    get open() {
-        return this.hasAttribute('open');
-    }
-
-    set handleButton(value){
-        this.toggleAttribute('handle-button', value);
-    }
-    get handleButton(){
-        return this.hasAttribute('handle-button');
     }
 }
 

@@ -1,8 +1,17 @@
+/**
+ * package: @components-1812/offcanvas
+ * version: 0.0.2
+*/
 :host {
-    position: static;
-
     --offcanvas-position: absolute;
     --offcanvas-z-index: 8010;
+
+    width: 100%;
+    height: 100%;
+    position: var(--offcanvas-position);
+    top: 0;
+    left: 0;
+    z-index: var(--offcanvas-z-index);
 
     /* Panel */
     --offcanvas-panel-width: 300px;
@@ -79,13 +88,9 @@
     --offcanvas-position: absolute;
 }
 :host .offcanvas {
-    position: var(--offcanvas-position);
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    z-index: var(--offcanvas-z-index);
-
+    
     background-color: transparent;
     transition: var(--offcanvas-backdrop-transition);
 

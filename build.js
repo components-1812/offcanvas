@@ -16,7 +16,7 @@ const BUILD_ENTRIES = [
             sourcemap: false,
             target: 'esnext',
             outfile: path.join(OUTPUT, 'Offcanvas.min.js'),
-            plugins: [htmlMinifyPlugin()]
+            plugins: [ minifyHTML() ]
         }
     },
     {
@@ -25,6 +25,17 @@ const BUILD_ENTRIES = [
             entryPoints: [path.join(SOURCE, 'Offcanvas.css')],
             minify: true,
             outfile: path.join(OUTPUT, 'Offcanvas.min.css'),
+        }
+    },
+    {
+        name: 'OffcanvasBase.min.js',
+        options: {
+            entryPoints: [path.join(SOURCE, 'OffcanvasBase.js')],
+            minify: true,
+            sourcemap: false,
+            target: 'esnext',
+            outfile: path.join(OUTPUT, 'OffcanvasBase.min.js'),
+            plugins: [ minifyHTML() ]
         }
     },
     {   
@@ -36,7 +47,7 @@ const BUILD_ENTRIES = [
             sourcemap: false,
             target: 'esnext',
             outfile: path.join(OUTPUT, 'index.min.js'),
-            plugins: [rawCSSPlugin(), htmlMinifyPlugin()]
+            plugins: [rawCSSLoader(), minifyHTML()]
         }
     },
 ];
@@ -64,7 +75,7 @@ for(const {name, options} of BUILD_ENTRIES) {
  *  Support for import ?raw from '.css'
  *  Load the css file and minify it
  */
-function rawCSSPlugin(){
+function rawCSSLoader(){
 
     return {
         name: 'raw-css-loader',
@@ -100,11 +111,13 @@ function rawCSSPlugin(){
 /**
  *  Minify the HTML inside the JavaScript string literals using the html-minifier library
  */
-export function htmlMinifyPlugin() {
+export function minifyHTML() {
 
-    async function minifyHTMLinJS(contents) {
+    const HTML_REGEX = /\/\*html\*\/\s*`([\s\S]*?)`/g;
+    const SVG_REGEX = /\/\*svg\*\/\s*`([\s\S]*?)`/g;
 
-        const regex = /`([^`]*<[^>]+>[^`]*)`/gs
+    async function minifyContents(regex,contents) {
+
         const matchs = [...contents.matchAll(regex)];
 
         if(matchs.length === 0) return contents;
@@ -138,7 +151,8 @@ export function htmlMinifyPlugin() {
                 const fs = await import('node:fs/promises')
                 let contents = await fs.readFile(args.path, 'utf8');
 
-                contents = await minifyHTMLinJS(contents);
+                contents = await minifyContents(HTML_REGEX, contents);
+                contents = await minifyContents(SVG_REGEX, contents);
 
                 return { contents, loader: 'default' }
             })
